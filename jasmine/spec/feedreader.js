@@ -42,13 +42,11 @@ $(function() {
          * and that the name is not empty.
          */
         it('name defined', function() {
-            for(let name of allFeeds) {
-            expect(name.url).toBeDefined();
-            expect(name.url.length).not.toBe(0);
+            for(let feed of allFeeds) {
+            expect(feed.name).toBeDefined();
+            expect(feed.name.length).not.toBe(0);
             }
         });
-    
-
 
     /* New test suite named "The menu" */
     describe('The menu', function() {
@@ -76,6 +74,7 @@ $(function() {
             menu.click();
             expect(body.classList.contains('menu-hidden')).toBe(true);
         });
+    });
 
     /* New test suite named "Initial Entries" */
     describe('Initial Entries', function() {
@@ -91,6 +90,7 @@ $(function() {
         it('completes work', function() {
             const feed = document.querySelector('.feed');
             expect(feed.children.length > 0).toBe(true);
+            expect($('.feed .entry').length).toBeGreaterThan(0);
         });
     });
 
@@ -103,18 +103,15 @@ $(function() {
          * by the loadFeed function that the content actually changes.
          */
         beforeEach(function(done) {
-            loadFeed(0);
-            Array.from(feed.children).forEach(function(entry) {
-                firstFeed.push(entry.innerText);
+            loadFeed(0, function() {
+            oldFeed = $('.feed').html();
             });
             loadFeed(1, done);
         });
         it('content changes', function() {
-            Array.from(feed.children).forEach(function(entry, index) {
-                expect(entry.innerText === firstFeed[index]).toBe(false);
+            expect($('.feed').html()).not.toBe(oldFeed);
         });
      });
     });
   });
- });
-});
+ 
