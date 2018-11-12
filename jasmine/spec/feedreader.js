@@ -89,29 +89,32 @@ $(function() {
 
         it('completes work', function() {
             const feed = document.querySelector('.feed');
-            expect(feed.children.length > 0).toBe(true);
             expect($('.feed .entry').length).toBeGreaterThan(0);
         });
     });
 
     /* New test suite named "New Feed Selection" */
     describe('New Feed Selection', function() {
-        const feed = document.querySelector('.feed');
-        const firstFeed = [];
+        let firstFeed, lastFeed;
+        
     
         /* This test ensures when a new feed is loaded
          * by the loadFeed function that the content actually changes.
          */
         beforeEach(function(done) {
             loadFeed(0, function() {
-            oldFeed = $('.feed').html();
-            });
+            firstFeed = $('.feed').html();
             loadFeed(1, done);
+            });
         });
-        it('content changes', function() {
-            expect($('.feed').html()).not.toBe(oldFeed);
+
+        it('content changes', function(done) {
+                lastFeed = $('.feed').html();
+                expect(firstFeed).not.toEqual(lastFeed);
+                done();
         });
      });
     });
-  });
+  }());
+
  
